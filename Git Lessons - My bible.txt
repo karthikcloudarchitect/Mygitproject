@@ -1,0 +1,293 @@
+1. untracked files --- working area 
+		git 
+		git init
+		a) how to create file in working area 
+		touch file1.txt file2.txt 
+
+		file1.txt file2.txt in untracked file / working area 
+
+
+		cmd>>git status
+
+			$ git status
+			On branch master
+
+			No commits yet
+
+			Untracked files:
+  			(use "git add <file>..." to include in what will be committed)
+      			 file1.txt
+       			 file2.txt
+		b) how to delete file in working area 
+		   rm file1.txt 
+		   for more files for same type rm *.txt 
+			
+
+2. staging area  >> 
+		working area to staging area
+  		a) for single file 	 
+		git add file1.txt : 
+
+ 
+		$ git status
+		On branch master
+
+		No commits yet
+
+		Changes to be committed:
+  		(use "git rm --cached <file>..." to unstage)
+        	new file:   file1.txt
+
+		Untracked files:
+ 		(use "git add <file>..." to include in what will be committed)
+       		 file2.txt
+
+		b) for all file :
+		git add . 
+
+		c)how to remove file from staging area : 
+			for single file : 
+			git rm --cached  file1.txt : 
+
+			$ git status
+			On branch master
+
+			No commits yet
+
+			Untracked files:
+ 			 (use "git add <file>..." to include in what will be committed)
+       			 file1.txt
+        		 file2.txt
+
+
+		  d)for all files : 
+		  git reset 
+
+			$ git status
+			On branch master
+
+			No commits yet
+
+				Untracked files:
+  			(use "git add <file>..." to include in what will be committed)
+       				 file1.txt
+        			 file2.txt
+
+
+
+
+
+
+3. local repository 
+			git add file1.txt  >> it will move to staging area
+ 			git status    >>> verify the status 
+
+			a) git commit file1.txt -m "file1 prmoted"      >>>> moved the file1.txt to local repository
+			o/p 
+			[master (root-commit) 18c070e] file 1 prmoted
+			 1 file changed, 0 insertions(+), 0 deletions(-)
+			 create mode 100644 file1.txt 
+
+			git status    >>> verify the status 
+			$ git status
+			On branch master
+			Untracked files:
+				  (use "git add <file>..." to include in what will be committed)
+     			  		file2.txt
+
+			nothing added to commit but untracked files present (use "git add" to track)  
+
+			git log  >>>>> verify the log details 
+				
+			commit 18c070ed5eb4c90725da92952ad5006c4ce477a8 (HEAD -> master)    >>> commit id 
+			Author: karthi <maha@edureka.com>
+			Date:   Tue Sep 29 08:56:44 2020 +0530
+
+		        file 1 prmoted
+
+			a1) how to stage and unstaged file at the same instance ? 
+				git commit -a -m  "new files added and demo done" 
+			this will work only when there was a commit happened before 
+		
+			b) how to amend the commit message 
+			if you see the above commit messgae ""file1 prmoted"  >>> word promoted is wrong  
+
+			git commit --amend -m "file1 is promoted" 
+			
+			o/p: 
+			
+			[master 54728f6] file1 is promoted
+			 Date: Tue Sep 29 08:56:44 2020 +0530
+			 1 file changed, 0 insertions(+), 0 deletions(-)
+			 create mode 100644 file1.txt 
+
+			check the log : 
+
+			$ git log
+			commit 54728f650a04c9f1dcc8a501eb8d753401696c11 (HEAD -> master)
+			Author: karthi <maha@edureka.com>
+			Date:   Tue Sep 29 08:56:44 2020 +0530
+
+    			file1 is promoted
+
+			c) how to amend the specific commit message when there are more 1 commit 
+				its big process we can see that later 
+			
+			d) Tag >>> used for reference points in development flow >> like change tag
+				git tag v1.0   >>> v1.0 is this tag name 
+				git show tag v1.0  >> to display the details of tag v1.0
+				git tag >> list all the tag 
+				git tag -n >> to see the list of tags along with commit message 
+				git tag new_Tag_name old_tag_name  >>> take a copy of tag 
+				git tag -d tag name to delete 
+				git tag tag name commit id 
+				git checkout tag name >> and give ls >> it will show the list of the files were present that time.
+			e) Reset >>> how to reset the commit id ? 
+				git reset --hard head~1   >>> it will remove the file completely 
+				git reset --soft head~1   >>> it will move the file to staging area
+				git reset --mixed head~1  >>> it will move the file wto working directory . its between hard and soft . thatsy its mix :P
+				
+				commmit log : 
+				file 1 >> head~1
+				file 2 >> head~2 
+				file 3 >> head~3  
+
+different case : 
+
+				commmit log : 
+				file 1 >> head~1
+				file 2 >> head~2 
+				file 3 >> head~3
+					git reset --soft head~1 
+
+				it will move the file 1 to staging area . 
+				after this type the below command
+					git reset --hard head~1 
+				it will remove file2 completely and in addition to that it will remove whatever the files available in staging area 
+				in this case ,file1 alone will removed.
+
+			f) git revert >> it will undo the changes. 
+				git revert commit id 
+		
+
+					
+
+			g) git ignore  >> if you dont want to see some of the files in untracked files area or working area . 
+				vi .gitignore  >>enter >> add files in the editor 
+
+				 
+
+			h)config : configuration of user name and email . it can be either global or local. but local always dominates the global .
+				git config  -- global user.name 
+				git config --local user.name 
+
+
+
+
+4) remote repsitory : 
+
+			a) conect to remote :
+				git remote add origin <remote repsitory link>  
+			b) push 	
+				git push origin master 	
+				this will move the files to remote and create a branch as well in remote 
+
+			c) working on remote :
+				you can create file in remote repository itself > just click add new file. 
+ 
+			d) how to get the files from remote to local 
+				d1) fetch   >> git fetch origin master >> we cant the see the files which in working directory.
+				d2) pull    >> git pull origin  master >> we can the see the files which in working directory.
+
+
+5) Branching and merging : 
+			Branching : a project in developemnt could take multiple different paths to achieve goals. 
+				    say for example , you have received new developement you want to proceed. then 
+			 a) basic branching: 
+				git checkout -b issue34 (short form) 
+				or 
+				git branch issue34
+				git checkout issue34  it will switch to issue34 branch 
+			 b) how to check branch list present 
+				git branch   
+			 c) how to merge and when to use : 
+				master >>> 1.txt 2.txt 
+				git log >> c1
+					>> c2 
+
+				branch name "issue1">>> 1.txt 2.txt 3.txt  	
+				git log  >> c1
+					 >> c2
+					 >> c3  
+				now you want to deploy 3.txt. and its not present in master. 
+				git chekcout master 
+				git merge issue1 
+				git log    >>> c1 
+					   >>> c2 
+					   >>> c3 
+				now you can see the commit 3 also in master . 	
+			d) how to delete the branch 
+				once you are done with the branch issue1 . we can delete the branch 
+				git branch -d issue1 ( for fully merged branch) 
+				git branch - D issue1  
+			e) merge conflict 
+				say you have 2 branch , issue1 and issue2 and both of the having change in same module 1.txt 
+				>> commit made in issue1 for 1.txt 
+				>> and then merge with master  >> done 
+				>> commit made in issue 2 for 1.txt 
+				>> and then merge withe master , we will get below error : 
+			error mess: 
+
+			Auto-merging 1.txt
+			CONFLICT (content): Merge conflict in 1.txt
+			Automatic merge failed; fix conflicts and then commit the result 
+			
+			how to overcome: 
+				git mergetool : 
+
+	link with example : 
+	https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+	
+
+				
+
+			
+6)stashing :	
+		a) stash :
+			While working in a team, there might be situations where you'd have to temporarily put away your current work, 
+			to work on something of higher priority, 
+			and git stash helps you stash your work away and clear your working directory.  
+
+			a1) push >> it will the push the code to stash folder    
+					git stash push 1.txt
+
+			a2) pop  >> it will remove the code stash folder and move it to staging area
+					git stash pop stash-id
+			a3) apply >> it will keep copy in stash folder and move it staging area 
+					git stash apply stash-id
+			a4) drop >> it will delete the code from stash folder 
+					git stash drop stash id
+			a5) clear >> it will remove all the files from stash folder 
+					git stash clear  
+
+7)Rebase: 
+		rebase is used to make sure branch is in sync with master file. 
+		for example :1 
+		master >> c1 >c2 >c3 
+		branch > feature > c1 >c2 > c3  
+		master > c1 > c2 > c3 > got new commit  
+		branch >> feature is not in sync with master 
+		git rebase feature master 
+		feature > c1 > c2 > c3 > c4 
+
+		
+
+     
+
+			
+commands to know: 
+
+git diff 
+git log 
+git log --oneline 
+git show  
